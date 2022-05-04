@@ -2,17 +2,19 @@ package com.arch.customer;
 
 import com.arch.clients.fraud.FraudCheckResponse;
 import com.arch.clients.fraud.FraudClient;
+import com.arch.clients.notification.NotificationClient;
+import com.arch.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
 
     private final CustomerRepo customerRepo;
-    private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
+
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -29,6 +31,14 @@ public class CustomerService {
         if (fraudCheckResponse.isFraudster()){
             throw new IllegalStateException("fraudster");
         }
-        // todo: send notification
+        // todo: make it async. i.e add to queue
+        notificationClient.sendNotification(
+                new NotificationRequest(
+                        customer.getId(),
+                        customer.getEmail(),
+                        String.format("Hi %s, welcome to Arch...",
+                                customer.getFirstName())
+                )
+        );
     }
 }
