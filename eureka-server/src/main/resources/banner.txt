@@ -4,5 +4,5 @@
 |  `---. '  ''  ' |  |    \   --. |  \  \  \ '-'  |   .-'    | \   --. |  |      \    /   \   --. |  |
 `------'  `----'  `--'     `----' `--'`--'  `--`--'   `-----'   `----' `--'       `--'     `----' `--'
 
-Eureka Server v1.0
-Powered by Spring Boot 2.5.7
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}
