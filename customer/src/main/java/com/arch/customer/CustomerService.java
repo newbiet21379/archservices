@@ -1,8 +1,8 @@
 package com.arch.customer;
 
+import com.arch.amqp.RabbitMQMessageProducer;
 import com.arch.clients.fraud.FraudCheckResponse;
 import com.arch.clients.fraud.FraudClient;
-import com.arch.clients.notification.NotificationClient;
 import com.arch.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class CustomerService {
 
     private final CustomerRepo customerRepo;
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
 
     public void registerCustomer(CustomerRegistrationRequest request) {
@@ -32,13 +32,17 @@ public class CustomerService {
             throw new IllegalStateException("fraudster");
         }
         // todo: make it async. i.e add to queue
-        notificationClient.sendNotification(
+        NotificationRequest notificationRequest=
                 new NotificationRequest(
                         customer.getId(),
                         customer.getEmail(),
                         String.format("Hi %s, welcome to Arch...",
                                 customer.getFirstName())
-                )
+                );
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
         );
     }
 }
