@@ -20,12 +20,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <spring.boot.maven.plugin.version>2.5.7</spring.boot.maven.plugin.version>
-        <spring.boot.dependencies.version>2.5.7</spring.boot.dependencies.version>
-        <spring.cloud-version>2020.0.3</spring.cloud-version>
-        <image>arch/${project.artifactId}:${project.version}</image>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.release>11</maven.compiler.release>
+        <spring.boot.maven.plugin.version>2.6.7</spring.boot.maven.plugin.version>
+        <spring.boot.dependencies.version>2.6.7</spring.boot.dependencies.version>
+        <spring.cloud-version>2021.0.1</spring.cloud-version>
+        <image>beatable2310/${project.artifactId}:${project.version}</image>
     </properties>
 
     <name>arch-services</name>
@@ -54,6 +56,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -83,22 +86,13 @@
                 <plugin>
                     <groupId>com.google.cloud.tools</groupId>
                     <artifactId>jib-maven-plugin</artifactId>
-                    <version>3.1.4</version>
+                    <version>3.2.1</version>
                     <configuration>
                         <from>
-                            <image>eclipse-temurin:11@sha256:2b47a8ea946ce1e5365a1562414ed576e378b7b670cadff3fb98ebecf2890cdc</image>
-                            <platforms>
-                                <platform>
-                                    <architecture>arm64</architecture>
-                                    <os>linux</os>
-                                </platform>
-                                <platform>
-                                    <architecture>amd64</architecture>
-                                    <os>linux</os>
-                                </platform>
-                            </platforms>
+                            <image>openjdk@sha256:c3bcb78966dce46bed8804a49cf720381ce4d99efd682eb95e6436c64c342c26</image>
                         </from>
                         <to>
+                            <image>${project.artifactId}:${project.version}</image>
                             <tags>
                                 <tag>latest</tag>
                             </tags>
@@ -119,10 +113,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.10.1</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>
